@@ -37,6 +37,45 @@
             <param name="authorDTO"></param>
             <returns></returns>
         </member>
+        <member name="M:BookStore_API.Controllers.AuthorsController.Delete(System.Int32)">
+            <summary>
+            Removes an author by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BookStore_API.Controllers.BooksController">
+            <summary>
+            Interacts with the books table
+            </summary>
+        </member>
+        <member name="M:BookStore_API.Controllers.BooksController.GetBooks">
+            <summary>
+            Get all books
+            </summary>
+            <returns>A list of books</returns>
+        </member>
+        <member name="M:BookStore_API.Controllers.BooksController.GetBook(System.Int32)">
+            <summary>
+            Gets a book by id
+            </summary>
+            <param name="id"></param>
+            <returns>A book record</returns>
+        </member>
+        <member name="M:BookStore_API.Controllers.BooksController.Create(BookStore_API.DTOs.BookCreateDTO)">
+            <summary>
+            Creates a new book
+            </summary>
+            <param name="bookDTO"></param>
+            <returns>Book object</returns>
+        </member>
+        <member name="M:BookStore_API.Controllers.BooksController.Delete(System.Int32)">
+            <summary>
+            Delete a book
+            </summary>
+            <param name="id"></param>
+            <returns></returns>        
+        </member>
         <member name="T:BookStore_API.Controllers.HomeController">
             <summary>
             This is a test API Controller

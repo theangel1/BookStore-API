@@ -8,42 +8,41 @@ using System.Threading.Tasks;
 
 namespace BookStore_API.Services
 {
-    public class AuthorRepository : IAuthorRepository
+    public class BookRepository : IBookRepository
     {
         private readonly ApplicationDbContext _db;
-
-        public AuthorRepository(ApplicationDbContext db)
+        public BookRepository(ApplicationDbContext db)
         {
             _db = db;
         }
-
-        public async Task<bool> Create(Author entity)
+        public async Task<bool> Create(Book entity)
         {
-            await _db.Authors.AddAsync(entity);
+            await _db.Books.AddAsync(entity);
             return await Save();
         }
 
-        public async Task<bool> Delete(Author entity)
+        public async Task<bool> Delete(Book entity)
         {
-            _db.Authors.Remove(entity);
+            _db.Books.Remove(entity);
             return await Save();
         }
 
-        public async Task<IList<Author>> FindAll()
+        public async Task<IList<Book>> FindAll()
         {
-            var authors = await _db.Authors.ToListAsync();
-            return authors;
+            var books = await _db.Books.ToListAsync();
+            return books;
         }
 
-        public async Task<Author> FindById(int id)
+        public async Task<Book> FindById(int id)
         {
-            var author = await _db.Authors.FindAsync(id);
-            return author;
+            var books = await _db.Books.FindAsync(id);
+            return books;
         }
 
         public async Task<bool> IsExists(int id)
         {
-            return await _db.Authors.AnyAsync(q => q.Id == id);
+            var isExists = await _db.Books.AnyAsync(q => q.Id == id);
+            return isExists;
         }
 
         public async Task<bool> Save()
@@ -52,9 +51,9 @@ namespace BookStore_API.Services
             return changes > 0;
         }
 
-        public async Task<bool> Update(Author entity)
+        public async Task<bool> Update(Book entity)
         {
-            _db.Authors.Update(entity);
+            _db.Books.Update(entity);
             return await Save();
         }
     }
