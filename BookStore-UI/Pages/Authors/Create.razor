@@ -1,0 +1,68 @@
+﻿@page "/authors/create"
+@attribute [Authorize(Roles = "Administrator")]
+@inject IAuthorRepository _repo
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create Author</h3>
+<br />
+<hr />
+
+@if (!isSuccess)
+{
+    <ErrorMessage Message="Something went wrong with the operation"></ErrorMessage>
+}
+
+
+<EditForm Model="Model" OnValidSubmit="CreateAuthor">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="firstname">Firstname</label>
+        <InputText @bind-Value="Model.Firstname" class="form-control" id="firstname"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="lastname">Lastname</label>
+        <InputText @bind-Value="Model.Lastname" class="form-control" id="lastname"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="bio">Bio</label>
+        <InputTextArea @bind-Value="Model.Bio" class="form-control" id="bio"></InputTextArea>
+    </div>
+    <button class="btn btn-primary" type="submit">
+        <span class="oi oi-pencil"></span>
+        Create
+    </button>
+    <button @onclick="BackToList" class="btn btn-outline-secondary">
+        <span class="oi oi-media-skip-backward">
+        </span> Back to list
+    </button>
+
+</EditForm>
+
+
+@code {
+
+    private Author Model = new Author();
+    private bool isSuccess = true;
+
+
+    private void BackToList()
+    {
+        _navManager.NavigateTo("/authors/");
+    }
+
+    private async Task CreateAuthor()
+    {
+        isSuccess = await _repo.Create(Endpoints.AuthorsEndpoint, Model);
+
+        if (isSuccess)
+        {
+            BackToList();
+        }
+        else
+        {
+            isSuccess = false;
+        }
+    }
+}
