@@ -59,12 +59,12 @@ namespace BookStore_API.Controllers
                     
                     foreach (var error in result.Errors)
                     {
-                        _logger.LogError($"{location}: {error.Code} {error.Description}");
-                        return InternalError($"{location}: {username} user registration attempt failed");
+                        _logger.LogError($"{location}: {error.Code} {error.Description}");                        
                     }
+                    return InternalError($"{location}: {username} user registration attempt failed");
                 }
-
-                return Ok(new { result.Succeeded });
+                await _userManager.AddToRoleAsync(user, "Customer");
+                return Created("login", new { result.Succeeded });
             }
             catch (Exception e)
             {
