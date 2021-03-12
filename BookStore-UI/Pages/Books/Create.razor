@@ -1,0 +1,69 @@
+﻿@page "/books/create/"
+@attribute [Authorize(Roles = "Administrator")]
+
+@inject IBookRepository _repo
+@inject IAuthorRepository _authorRepo
+@inject NavigationManager _navManager
+
+<h3>Create Book</h3>
+<hr />
+<br />
+
+<EditForm Model="Model" OnValidSubmit="HandleCreate">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+    <div class="form-group">
+        <label for="title">Book title</label>
+        <InputText @bind-Value="Model.Title" class="form-control" id="title"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="isbn">ISBN</label>
+        <InputText @bind-Value="Model.Isbn" class="form-control" id="isbn"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="price">Price</label>
+        <InputNumber @bind-Value="Model.Price" class="form-control" id="price"></InputNumber>
+    </div>
+    <div class="form-group">
+       <label for="author">Authors</label>
+       <select @bind="Model.AuthorId" class="form-control" id="author">
+           <option value="">Select author</option>
+           @if (Authors != null)
+           {
+               foreach (var author in Authors)
+               {
+                   <option value="@author.Id">@author.Firstname @author.Lastname</option>
+               }
+           }
+       </select>
+    </div>
+    <div class="form-group">
+        <label for="bookcover">Book cover photo</label>
+        <InputFile OnChange="HandleFileSelection"></InputFile>
+    </div>
+    <button type="submit">
+        Create book
+    </button>
+    <button @onclick="BackToList">Back to list</button>
+
+</EditForm>
+
+@code {
+    private Book Model = new Book();
+    private IList<Author> Authors;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Authors = await _authorRepo.Get(Endpoints.AuthorsEndpoint);
+    }
+
+
+
+    private void BackToList()
+    {
+        _navManager.NavigateTo("/books/");
+    }
+
+
+
+}
