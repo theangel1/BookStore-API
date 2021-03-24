@@ -42,7 +42,7 @@ else
                         <img src="/uploads/@book.Image" style="height:50px;width:50px"/>
                     </td>
                     <td>@book.Title</td>
-                    <td>@book.Price</td>
+                    <td>@string.Format("{0:C}", book.Price)</td>
                     <td>
                         @if (book.Author == null)
                         {

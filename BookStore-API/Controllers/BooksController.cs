@@ -94,7 +94,7 @@ namespace BookStore_API.Controllers
         /// <param name="bookDTO"></param>
         /// <returns>Book object</returns>
         [HttpPost]
-        [Authorize(Roles ="Administrators")]
+        [Authorize(Roles ="Administrator")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
