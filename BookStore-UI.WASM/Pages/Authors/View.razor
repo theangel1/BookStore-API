@@ -1,0 +1,91 @@
+﻿@page "/authors/view/{id}"
+@inject IAuthorRepository _repo
+@inject NavigationManager _navManager
+
+<h3>View Author details</h3>
+
+@if (Model == null)
+{
+    <LoadingMessage Message="Loading author details"></LoadingMessage>
+}
+else
+{
+    <div class="col-md-4">
+        <table class="table table-responsive">
+            <tr>
+                <td>First name</td>
+                <td>@Model.Firstname</td>
+            </tr>
+            <tr>
+                <td>last name</td>
+                <td>@Model.Lastname</td>
+            </tr>
+            <tr>
+                <td>Bio</td>
+                <td>@Model.Bio</td>
+            </tr>
+        </table>
+        <br />
+
+        @if (Model.Books == null || Model.Books.Count < 1)
+        {
+            <div class="alert alert-dismissible alert-secondary">
+                No books for this author
+            </div>
+        }
+        else
+        {
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                    <h4>Author's books</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var book in Model.Books)
+                    {
+                        <li class="list-group-item">@book.Title - @book.Price</li>
+
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+}
+<br />
+<button @onclick="GoToEdit" class="btn btn-outline-warning">
+    <span class="oi oi-pencil">
+    </span>Editar author
+</button>
+<button @onclick="GoToDelete" class="btn btn-outline-danger">
+    <span class="oi oi-media-skip-backward">
+    </span> Delete author
+</button>
+<button @onclick="BackToList" class="btn btn-outline-secondary">
+    <span class="oi oi-media-skip-backward">
+    </span> Back to list
+</button>
+
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    private Author Model = new Author();
+    protected override async Task OnInitializedAsync()
+    {
+        int id = int.Parse(Id);
+        Model = await _repo.Get(Endpoints.AuthorsEndpoint, id);
+    }
+
+    private void BackToList()
+    {
+        _navManager.NavigateTo("/authors/");
+    }
+
+    private void GoToDelete()
+    {
+        _navManager.NavigateTo($"/authors/delete/{Model.Id}");
+    }
+    private void GoToEdit()
+    {
+        _navManager.NavigateTo($"/authors/edit/{Model.Id}");
+    }
+}

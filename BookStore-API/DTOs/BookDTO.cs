@@ -15,6 +15,7 @@ namespace BookStore_API.DTOs
         public string Summary { get; set; }
         public string Image { get; set; }
         public decimal? Price { get; set; }
+        public string File { get; set; }
         public int? AuthorId { get; set; }
         public virtual AuthorDTO Author { get; set; }
     }
@@ -34,6 +35,7 @@ namespace BookStore_API.DTOs
 
         [Required]
         public int AuthorId { get; set; }
+        public string File { get; set; }
 
     }
     public class BookUpdateDTO
@@ -48,6 +50,7 @@ namespace BookStore_API.DTOs
         public string Image { get; set; }
         public decimal? Price { get; set; }
         public int? AuthorId { get; set; } // Missing from the previous lesson. Ensure that you include.
+        public string File { get; set; }
 
     }
 }
